@@ -1,11 +1,24 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
 import { Row, Col, Image, ListGroup, Card, Button } from 'react-bootstrap';
 import Rating from '../components/Rating';
-import products from '../products';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import ProductModel from '../models/ProductModel';
 
 const ProductScreen = ({ match }) => {
-  const product = products.find((p) => p._id === match.params.id);
+  const [product, setProduct] = useState<ProductModel | any>({});
+
+  useEffect(() => {
+    const fetchProduct = async () => {
+      try {
+        const { data } = await axios.get(`/api/products/${match.params.id}`);
+        setProduct(data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchProduct();
+  }, [match.params.id]);
 
   return (
     <>
@@ -57,7 +70,7 @@ const ProductScreen = ({ match }) => {
 
               <ListGroup.Item>
                 <Button
-                  disabled={product.countInStock === 0}
+                  disabled={match.countInStock === 0}
                   className='btn-clock'
                   type='button'
                 >
