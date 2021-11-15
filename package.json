@@ -4,13 +4,19 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "concurrently \"npm run server\" \"npm run client\"",
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
     "server": "nodemon server/server",
-    "client": "npm start --prefix client "
+    "client": "npm start --prefix client ",
+    "data:import": "node server/seeder",
+    "data:destroy": "node server/seeder -d"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "dotenv": "^10.0.0"
+    "bcryptjs": "^2.4.3",
+    "colors": "^1.4.0",
+    "dotenv": "^10.0.0",
+    "express-async-handler": "^1.2.0",
+    "mongoose": "^6.0.12"
   }
 }
