@@ -5,12 +5,15 @@ import colors from 'colors';
 import { notFound, errorHandler } from './middleware/errorHandler.js';
 
 import productRoutes from './routes/productRoutes.js';
+import userRoutes from './routes/userRoutes.js';
 
 dotenv.config();
 connectDB();
 
 const server = express();
+server.use(express.json());
 server.use('/api/products', productRoutes);
+server.use('/api/users', userRoutes);
 
 server.use(notFound);
 server.use(errorHandler);
