@@ -4,11 +4,14 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import { productDetailsReducer, productListReducer } from './reducers/productReducers';
 import { cartReducer } from './reducers/cartReducers';
 import CartItemModel from './models/CartItemModel';
+import { userLoginReducer } from './reducers/userReducers';
+import UserInfoModel from './models/UserInfoModel';
 
 const reducer = combineReducers({
   productList: productListReducer,
   productDetails: productDetailsReducer,
-  cart: cartReducer
+  cart: cartReducer,
+  userLogin: userLoginReducer
 });
 
 export type RootState = ReturnType<typeof store.getState>
@@ -17,8 +20,12 @@ export type AppDispatch = typeof store.dispatch
 const cartItemsFromStorage: CartItemModel[] =
   localStorage.getItem('cartItems') ? JSON.parse(localStorage.getItem('cartItems')) : []
 
+const userInfoFromStorage: UserInfoModel =
+  localStorage.getItem('userInfo') ? JSON.parse(localStorage.getItem('userInfo')) : null
+
 const initialState = {
-  cart: { cartItems: cartItemsFromStorage }
+  cart: { cartItems: cartItemsFromStorage },
+  userInfo: { userInfo: userInfoFromStorage }
 };
 
 const middleware = [thunk];
