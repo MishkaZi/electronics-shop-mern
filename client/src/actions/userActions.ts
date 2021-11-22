@@ -1,5 +1,5 @@
 import axios from "axios"
-import { USER_LOGIN_FAIL, USER_LOGIN_REQUEST, USER_LOGIN_SUCCESS } from "../constants/userConstants"
+import { USER_LOGIN_FAIL, USER_LOGIN_REQUEST, USER_LOGIN_SUCCESS, USER_LOGOUT } from "../constants/userConstants"
 import { AppDispatch } from "../store"
 
 export const login = (email: String, password: String) => async (dispatch: AppDispatch) => {
@@ -27,4 +27,12 @@ export const login = (email: String, password: String) => async (dispatch: AppDi
             payload: error.response && error.response.data.message ? error.response.data.message : error.message
         });
     }
+}
+
+export const logout = () => (dispatch: AppDispatch) => {
+    console.log('inside logout action');
+
+    localStorage.removeItem('userInfo')
+    dispatch({ type: USER_LOGOUT })
+
 }

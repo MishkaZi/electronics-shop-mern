@@ -7,8 +7,12 @@ interface UserLoginAction {
     error?: String;
 }
 
-export const userLoginReducer = (state = { userInfo: {}, loading: false, error: '' },
+
+
+export const userLoginReducer = (state: any = { userInfo: {}, loading: false, error: '' },
+
     action: UserLoginAction) => {
+
     switch (action.type) {
         case USER_LOGIN_REQUEST:
             return { loading: true }
