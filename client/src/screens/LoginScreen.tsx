@@ -40,6 +40,7 @@ const LoginScreen = ({ location, history }) => {
             type='email'
             placeholder='Enter Email:'
             value={email}
+            autoComplete='on'
             onChange={(e) => {
               setEmail(e.target.value);
             }}
@@ -51,6 +52,7 @@ const LoginScreen = ({ location, history }) => {
             type='password'
             placeholder='Enter Password:'
             value={password}
+            autoComplete='on'
             onChange={(e) => {
               setPassword(e.target.value);
             }}
