@@ -3,11 +3,11 @@ import CartItemModel from "../models/CartItemModel";
 
 interface CartAction {
     type: string;
-    payload: CartItemModel;
+    payload: any;
     error?: String;
 }
-
-export const cartReducer = (state = { cartItems: [], shippingAddress: {} }, action: CartAction) => {
+// , itemsPrice: 0, taxPrice: 0, shippingPrice: 0, totalPrice: 0 
+export const cartReducer = (state = { cartItems: [], paymentMethod: '', shippingAddress: {} }, action: CartAction) => {
     switch (action.type) {
         case CART_ADD_ITEM:
             const item = action.payload;
