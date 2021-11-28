@@ -7,6 +7,7 @@ import CartItemModel from './models/CartItemModel';
 import { userDetailsReducer, userLoginReducer, userRegisterReducer, userUpdateReducer } from './reducers/userReducers';
 import UserInfoModel from './models/UserInfoModel';
 import ShippingModel from './models/ShippingModel';
+import { orderCreareReducer } from './reducers/orderReducers';
 
 const reducer = combineReducers({
   productList: productListReducer,
@@ -15,7 +16,9 @@ const reducer = combineReducers({
   userLogin: userLoginReducer,
   userRegister: userRegisterReducer,
   userDetails: userDetailsReducer,
-  userUpdate: userUpdateReducer
+  userUpdate: userUpdateReducer,
+  createOrder: orderCreareReducer
+
 });
 
 export type RootState = ReturnType<typeof store.getState>

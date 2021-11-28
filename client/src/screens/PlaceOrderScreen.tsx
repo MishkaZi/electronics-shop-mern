@@ -1,15 +1,17 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Button, Row, Col, ListGroup, Image, Card } from 'react-bootstrap';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../store';
 import ShippingModel from '../models/ShippingModel';
 import CheckoutSteps from '../components/CheckoutSteps';
 import CartItemModel from '../models/CartItemModel';
 import Message from '../components/Message';
 import { Link } from 'react-router-dom';
+import OrderModel from '../models/OrderModel';
+import { createOrder } from '../actions/ordersActions';
 
-const PlaceOrderScreen = () => {
-  //   const dispatch = useDispatch();
+const PlaceOrderScreen = ({ history }) => {
+  const dispatch = useDispatch();
   const cart = useSelector((state: RootState) => state.cart);
 
   const {
@@ -33,7 +35,28 @@ const PlaceOrderScreen = () => {
 
   const totalPrice = itemsPrice + taxPrice + shippingPrice;
 
-  const placeOrderHandler = () => {};
+  const orderCreate = useSelector((state: RootState) => state.createOrder);
+  const { success, error, order } = orderCreate;
+
+  useEffect(() => {
+    if (success) {
+      history.push(`/order/${(order as OrderModel).user}`);
+    }
+  }, [history, success, order]);
+
+  const placeOrderHandler = () => {
+    dispatch(
+      createOrder({
+        orderItems: cartItems,
+        shippingAddress: shippingAddress,
+        paymentMethod: paymentMethod,
+        itemsPrice: itemsPrice,
+        shippingPrice: shippingPrice,
+        taxPrice: taxPrice,
+        totalPrice: totalPrice,
+      })
+    );
+  };
   return (
     <>
       <CheckoutSteps step1 step2 step3 step4 />
@@ -115,6 +138,9 @@ const PlaceOrderScreen = () => {
                   <Col>Total: </Col>
                   <Col>{totalPrice}$</Col>
                 </Row>
+              </ListGroup.Item>
+              <ListGroup.Item>
+                {error && <Message variant='danger'>{error}</Message>}
               </ListGroup.Item>
               <ListGroup.Item>
                 <Button
