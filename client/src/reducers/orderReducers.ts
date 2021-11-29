@@ -1,4 +1,4 @@
-import { ORDER_CREATE_FAIL, ORDER_CREATE_REQUEST, ORDER_CREATE_SUCCESS } from "../constants/orderConstants"
+import { ORDER_CREATE_FAIL, ORDER_CREATE_REQUEST, ORDER_CREATE_SUCCESS, ORDER_DETAILS_FAIL, ORDER_DETAILS_REQUEST, ORDER_DETAILS_SUCCESS } from "../constants/orderConstants"
 import OrderModel from "../models/OrderModel"
 
 interface OrderAction {
@@ -9,7 +9,7 @@ interface OrderAction {
 
 
 
-export const orderCreareReducer = (state = { order: {}, loading: false, error: '', success: false },
+export const orderCreateReducer = (state = { order: {}, loading: false, error: '', success: false },
 
     action: OrderAction) => {
 
@@ -24,3 +24,21 @@ export const orderCreareReducer = (state = { order: {}, loading: false, error: '
             return state;
     }
 }
+
+
+export const orderDetailsReducer = (state = { order: {}, shippingAddress: {}, loading: true, error: '' },
+
+    action: any) => {
+
+    switch (action.type) {
+        case ORDER_DETAILS_REQUEST:
+            return { ...state, loading: true }
+        case ORDER_DETAILS_SUCCESS:
+            return { loading: false, order: action.payload }
+        case ORDER_DETAILS_FAIL:
+            return { loading: false, error: action.payload }
+        default:
+            return state;
+    }
+}
+

@@ -7,7 +7,7 @@ import CartItemModel from './models/CartItemModel';
 import { userDetailsReducer, userLoginReducer, userRegisterReducer, userUpdateReducer } from './reducers/userReducers';
 import UserInfoModel from './models/UserInfoModel';
 import ShippingModel from './models/ShippingModel';
-import { orderCreareReducer } from './reducers/orderReducers';
+import { orderCreateReducer, orderDetailsReducer } from './reducers/orderReducers';
 
 const reducer = combineReducers({
   productList: productListReducer,
@@ -17,7 +17,8 @@ const reducer = combineReducers({
   userRegister: userRegisterReducer,
   userDetails: userDetailsReducer,
   userUpdate: userUpdateReducer,
-  createOrder: orderCreareReducer
+  createOrder: orderCreateReducer,
+  orderDetails: orderDetailsReducer
 
 });
 
