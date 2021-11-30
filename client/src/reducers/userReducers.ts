@@ -1,6 +1,6 @@
 
 
-import { USER_LOGIN_FAIL, USER_LOGOUT, USER_LOGIN_REQUEST, USER_LOGIN_SUCCESS, USER_REGISTER_SUCCESS, USER_REGISTER_REQUEST, USER_REGISTER_FAIL, USER_DETAILS_REQUEST, USER_DETAILS_SUCCESS, USER_DETAILS_FAIL, USER_UPDATE_PROFILE__REQUEST, USER_UPDATE_PROFILE__SUCCESS, USER_UPDATE_PROFILE__FAIL, USER_UPDATE_PROFILE__RESET } from "../constants/userConstants";
+import { USER_LOGIN_FAIL, USER_LOGOUT, USER_LOGIN_REQUEST, USER_LOGIN_SUCCESS, USER_REGISTER_SUCCESS, USER_REGISTER_REQUEST, USER_REGISTER_FAIL, USER_DETAILS_REQUEST, USER_DETAILS_SUCCESS, USER_DETAILS_FAIL, USER_UPDATE_PROFILE__REQUEST, USER_UPDATE_PROFILE__SUCCESS, USER_UPDATE_PROFILE__FAIL, USER_UPDATE_PROFILE__RESET, USER_DETAILS_RESET } from "../constants/userConstants";
 import UserInfoModel from "../models/UserInfoModel";
 
 interface UsersAction {
@@ -60,6 +60,8 @@ export const userDetailsReducer = (state = { userInfo: {}, loading: false, error
             return { loading: false, error: action.payload }
         case USER_LOGOUT:
             return {}
+        case USER_DETAILS_RESET:
+            return { userInfo: {} }
         default:
             return state;
     }
