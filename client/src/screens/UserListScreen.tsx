@@ -3,7 +3,7 @@ import { Button, Table } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import Message from '../components/Message';
 import Loader from '../components/Loader';
-import { allUsers } from '../actions/userActions';
+import { allUsers, deleteUser } from '../actions/userActions';
 import { RootState } from '../store';
 import { LinkContainer } from 'react-router-bootstrap';
 import UserInfoModel from '../models/UserInfoModel';
@@ -17,24 +17,37 @@ const UserListScreen = ({ history }) => {
   const userLogin = useSelector((state: RootState) => state.userLogin);
   const { userInfo } = userLogin;
 
+  const userDelete = useSelector((state: RootState) => state.userDelete);
+  const {
+    success: userDeleteSuccess,
+    error: userDeleteError,
+    message,
+  } = userDelete;
+
   useEffect(() => {
     if (userInfo) {
       dispatch(allUsers());
     } else {
       history.push('/login');
     }
-  }, [dispatch, history, userInfo]);
+  }, [dispatch, history, userInfo, userDeleteSuccess]);
 
   const deleteHandler = (userId: string) => {
-    //Delete user
-    console.log(userId);
+    if (window.confirm('Are you sure ?')) {
+      dispatch(deleteUser(userId));
+    }
   };
-
-  console.log(users);
 
   return (
     <>
       <h1>Users</h1>
+      {userDeleteError ? (
+        <Message variant='danger'>{userDeleteError}</Message>
+      ) : message ? (
+        <Message variant='success'>{message}</Message>
+      ) : (
+        <></>
+      )}
       {loading ? (
         <Loader />
       ) : error ? (
@@ -59,7 +72,6 @@ const UserListScreen = ({ history }) => {
                   <a href={`mailto:${user.email}`}>{user.email}</a>
                 </td>
                 <td>
-                  {' '}
                   {user.isAdmin ? (
                     <i className='fas fa-check' style={{ color: 'green' }}></i>
                   ) : (
@@ -69,7 +81,7 @@ const UserListScreen = ({ history }) => {
                 <td>
                   <LinkContainer to={`/user/${user._id}/edit`}>
                     <Button className='btn-sm' variant='dark'>
-                      Edit
+                      <i className='fas fa-edit'></i>
                     </Button>
                   </LinkContainer>
                   <Button
@@ -78,8 +90,7 @@ const UserListScreen = ({ history }) => {
                     disabled={userInfo._id === user._id}
                     onClick={() => deleteHandler(user._id)}
                   >
-                    {' '}
-                    Delete
+                    <i className='fas fa-trash'></i>
                   </Button>
                 </td>
               </tr>
