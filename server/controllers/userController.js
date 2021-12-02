@@ -109,6 +109,41 @@ const deleteUser = asyncHandler(async (req, res) => {
   }
 });
 
+const getUserById = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.params.id).select('-password');
+
+  if (user) {
+    res.json(user);
+  } else {
+    res.status(404);
+    throw new Error('User not found');
+  }
+});
+
+const updateUser = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.params.id);
+
+  const updatedDetails = req.body;
+
+  if (user) {
+    user.name = updatedDetails.name || user.name;
+    user.email = updatedDetails.email || user.email;
+    user.isAdmin = updatedDetails.isAdmin;
+
+    const updatedUser = await user.save();
+
+    res.json({
+      _id: updatedUser._id,
+      name: updatedUser.name,
+      email: updatedUser.email,
+      isAdmin: updatedUser.isAdmin,
+    });
+  } else {
+    res.status(404);
+    throw new Error('User not found');
+  }
+});
+
 export {
   registerUser,
   authUser,
@@ -116,4 +151,6 @@ export {
   updateProfile,
   allUsers,
   deleteUser,
+  getUserById,
+  updateUser,
 };
