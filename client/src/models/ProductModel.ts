@@ -7,6 +7,6 @@ export default interface ProductModel {
     category: string;
     price: number;
     countInStock: number;
-    rating: number;
-    numReviews: number;
+    rating?: number;
+    numReviews?: number;
 }
