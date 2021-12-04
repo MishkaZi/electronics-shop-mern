@@ -1,13 +1,10 @@
-import React, { useState, useEffect, SyntheticEvent } from 'react';
-import { Form, Button, Row, Col, Table } from 'react-bootstrap';
+import React, { useEffect } from 'react';
+import { Button, Row, Col, Table } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import Message from '../components/Message';
 import Loader from '../components/Loader';
-import { getDetails, updateProfile } from '../actions/userActions';
 import { RootState } from '../store';
-import UserInfoModel from '../models/UserInfoModel';
-import { USER_UPDATE_PROFILE__RESET } from '../constants/userConstants';
-import { listMyOrders } from '../actions/ordersActions';
+import { listOrders } from '../actions/ordersActions';
 import OrderModel from '../models/OrderModel';
 import { LinkContainer } from 'react-router-bootstrap';
 
@@ -15,24 +12,22 @@ const OrdersListScreen = ({ history }) => {
   const dispatch = useDispatch();
 
   const userLogin = useSelector((state: RootState) => state.userLogin);
-
-  const orderMyList = useSelector((state: RootState) => state.orderListMy);
-  const { loading: loadingOrders, error: errorOrders, orders } = orderMyList;
+  const { userInfo } = userLogin;
+  const ordersList = useSelector((state: RootState) => state.orderList);
+  const { loading: loadingOrders, error: errorOrders, orders } = ordersList;
 
   useEffect(() => {
-    if (!userLogin.userInfo) {
-      history.push('/login');
+    if (userInfo && userInfo.isAdmin) {
+      dispatch(listOrders());
     } else {
-      dispatch(listMyOrders());
+      history.push('/login');
     }
-  }, [dispatch, history, userLogin.userInfo]);
-
-  const submitHandler = (e: SyntheticEvent) => {};
+  }, [dispatch, history, userInfo]);
 
   return (
     <Row>
       <Col md={9}>
-        <h2>My orders: </h2>
+        <h2>Orders: </h2>
         {loadingOrders ? (
           <Loader />
         ) : errorOrders ? (
@@ -42,17 +37,19 @@ const OrdersListScreen = ({ history }) => {
             <thead>
               <tr>
                 <th>ID</th>
-                <th>DATE</th>
+                <th>USER</th>
+                <th>DATE </th>
                 <th>TOTAL</th>
                 <th>PAID</th>
                 <th>DELIVERED</th>
-                <th>button</th>
+                <th></th>
               </tr>
             </thead>
             <tbody>
               {orders.map((order: OrderModel) => (
                 <tr key={order._id}>
                   <td>{order._id}</td>
+                  <td>{order.user && order.user.name}</td>
                   <td>{order.createdAt.substring(0, 10)}</td>
                   <td>{order.totalPrice}</td>
                   <td>

@@ -1,10 +1,11 @@
 import CartItemModel from "./CartItemModel";
 import ShippingModel from "./ShippingModel";
+import UserInfoModel from "./UserInfoModel";
 
 export default interface OrderModel {
     _id?: string;
     orderItems?: CartItemModel[];
-    user?: String;
+    user?: UserInfoModel;
     shippingAddress?: ShippingModel;
     paymentMethod?: String;
     itemsPrice?: Number;
