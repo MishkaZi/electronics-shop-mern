@@ -1,6 +1,7 @@
 import path from 'path';
 import express from 'express';
 import dotenv from 'dotenv';
+import morgan from 'morgan';
 import connectDB from './config/db.js';
 import colors from 'colors';
 import { notFound, errorHandler } from './middleware/errorHandler.js';
@@ -9,11 +10,15 @@ import productRoutes from './routes/productRoutes.js';
 import userRoutes from './routes/userRoutes.js';
 import orderRoutes from './routes/orderRoutes.js';
 import uploadRoutes from './routes/uploadRoutes.js';
+import { appendFile } from 'fs';
 
 dotenv.config();
 connectDB();
-
 const server = express();
+
+if (process.env.NODE_ENV === 'development') {
+  server.use(morgan('dev'));
+}
 server.use(express.json());
 server.use('/api/products', productRoutes);
 server.use('/api/users', userRoutes);

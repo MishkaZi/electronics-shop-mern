@@ -15,14 +15,15 @@ const RegisterScreen = ({ location, history }) => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [message, setMessage] = useState(null);
 
-  const redirect = location.search ? location.search.split('=')[1] : '/';
   const dispatch = useDispatch();
 
   const userRegister = useSelector((state: RootState) => state.userRegister);
   const { loading, error, userInfo } = userRegister;
 
+  const redirect = location.search ? location.search.split('=')[1] : '/';
+
   useEffect(() => {
-    if (!userInfo) {
+    if (userInfo === undefined ? false : Object.keys(userInfo).length !== 0) {
       history.push(redirect);
     }
   }, [history, userInfo, redirect]);
