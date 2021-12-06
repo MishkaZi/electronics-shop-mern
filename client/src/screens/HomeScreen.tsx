@@ -6,6 +6,7 @@ import Product from '../components/Product';
 import ProductModel from '../models/ProductModel';
 import { RootState } from '../store';
 import Loader from '../components/Loader';
+import Meta from '../components/Meta';
 
 const HomeScreen = ({ match }) => {
   const keyword = match.params.keyword;
@@ -21,6 +22,8 @@ const HomeScreen = ({ match }) => {
 
   return (
     <>
+      <Meta />
+      {/* {!keyword ? <ProductCarousel/>:<Link to='/' className='btn btn-light'>Go Back<Link/>} */}
       <h1>Latest Products</h1>
       {loading ? (
         <Loader></Loader>

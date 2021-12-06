@@ -15,6 +15,7 @@ import { addToCart, removeFromCart } from '../actions/cartActions';
 import { RootState } from '../store';
 import Message from '../components/Message';
 import { Link } from 'react-router-dom';
+import Meta from '../components/Meta';
 
 const CartScreen = ({ match, location, history }) => {
   const productId = match.params.id;
@@ -40,6 +41,8 @@ const CartScreen = ({ match, location, history }) => {
 
   return (
     <Row>
+      <Meta title='Cart' />
+
       <Col md={8}>
         <h1>Shopping Cart</h1>
         {cartItems.length === 0 ? (
