@@ -2,10 +2,10 @@ import { PRODUCT_LIST_REQUEST, PRODUCT_LIST_SUCCESS, PRODUCT_LIST_FAIL, PRODUCT_
 import axios from 'axios'
 import { AppDispatch } from "../store";
 import ProductModel from "../models/ProductModel";
-export const listProducts = () => async (dispatch: AppDispatch) => {
+export const listProducts = (keyword: string = '') => async (dispatch: AppDispatch) => {
     try {
         dispatch({ type: PRODUCT_LIST_REQUEST })
-        const { data } = await axios.get('/api/products');
+        const { data } = await axios.get(`/api/products?keyword=${keyword}`);
         dispatch({ type: PRODUCT_LIST_SUCCESS, payload: data });
     } catch (error) {
         dispatch({
