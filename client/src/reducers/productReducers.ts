@@ -7,16 +7,25 @@ import ProductModel from "../models/ProductModel";
 
 interface ProductListAction {
     type: string;
-    payload: ProductModel[];
+    payload: {
+        products: ProductModel[],
+        pages: number,
+        page: number
+    }
     error?: String;
 }
 
-export const productListReducer = (state = { products: [], loading: false, error: '' }, action: ProductListAction) => {
+export const productListReducer = (state = { products: [], loading: false, error: '', page: 0, pages: 0 }, action: ProductListAction) => {
     switch (action.type) {
         case PRODUCT_LIST_REQUEST:
             return { loading: true, products: [] }
         case PRODUCT_LIST_SUCCESS:
-            return { loading: false, products: action.payload }
+            return {
+                loading: false,
+                products: action.payload.products,
+                pages: action.payload.pages,
+                page: action.payload.page
+            }
         case PRODUCT_LIST_FAIL:
             return { loading: false, error: action.payload }
         default:
