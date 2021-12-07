@@ -15,6 +15,7 @@ import { appendFile } from 'fs';
 dotenv.config();
 connectDB();
 const server = express();
+const __dirname = path.resolve();
 
 if (process.env.NODE_ENV === 'development') {
   server.use(morgan('dev'));
@@ -28,9 +29,19 @@ server.use('/api/upload', uploadRoutes);
 server.get('/api/config/paypal', (req, res) => {
   res.send(process.env.PAYPAL_CLIENT_ID);
 });
-
-const __dirname = path.resolve();
 server.use('/uploads', express.static(path.join(__dirname, '/uploads')));
+
+if (process.env.NODE_ENV === 'production') {
+  server.use(express.static(path.join(__dirname, '/client/build')));
+
+  server.get('*', (req, res) =>
+    res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'))
+  );
+} else {
+  server.get('/', (req, res) => {
+    res.send('Api is running');
+  });
+}
 
 server.use(notFound);
 server.use(errorHandler);
